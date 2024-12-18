@@ -1,8 +1,10 @@
 def count_substring(string, sub_string):
-    for i in range(0, len(string)):
-        if sub_string:
-            print()
-    return
+    count = 0
+    for i in range(len(string)):
+        if string.startswith(sub_string, i):
+            count += 1
+    return count
+
 
 if __name__ == '__main__':
     string = input().strip()
