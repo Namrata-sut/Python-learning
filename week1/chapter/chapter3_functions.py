@@ -47,11 +47,11 @@ num1 = int(input())
 num2 = int(input())
 print(calculator(operation, num1, num2))
 
-# Write a function named collatz() that has one parameter named number. If number is even, then collatz() should print
-# number // 2 and return this value. If number is odd, then collatz() should print and return 3 * number + 1.
-# Then write a program that lets the user type in an integer and that keeps calling collatz() on that number until
-# the function returns the value 1. (Amazingly enough, this sequence actually works for any integer—sooner or later,
-# using this sequence, you’ll arrive at 1!
+"""Write a function named collatz() that has one parameter named number. If number is even, then collatz() should print
+ number // 2 and return this value. If number is odd, then collatz() should print and return 3 * number + 1.
+ Then write a program that lets the user type in an integer and that keeps calling collatz() on that number until
+ the function returns the value 1. (Amazingly enough, this sequence actually works for any integer—sooner or later,
+ using this sequence, you’ll arrive at 1! """
 import sys
 
 def collatz(number):
