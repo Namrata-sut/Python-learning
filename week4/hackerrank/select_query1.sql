@@ -104,21 +104,20 @@ SELECT name FROM employee ORDER BY name ASC;
 SELECT name FROM employee WHERE salary > 2000 AND months < 10 ORDER BY employee_id ASC;
 
 
+--Query the two cities in STATION with the shortest and longest CITY names, as well as their respective lengths
+--(i.e.: number of characters in the name). If there is more than one smallest or largest city, choose the one that comes first when ordered alphabetically.
+SELECT city, LENGTH(city) FROM station
+ORDER BY LENGTH(city), city ASC LIMIT 1;
+SELECT city, LENGTH(city) FROM station
+ORDER BY LENGTH(city)DESC, city ASC LIMIT 1;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+--Query the Name of any student in STUDENTS who scored higher than  Marks. Order your output by the last three characters
+--of each name. If two or more students both have names ending in the same last three characters
+--(i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+SELECT name FROM students
+WHERE marks > 75
+ORDER BY RIGHT(name, 3), ID;
 
 
 
