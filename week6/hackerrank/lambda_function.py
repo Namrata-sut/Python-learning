@@ -1,4 +1,18 @@
+# Task
+# Input Format:
+# One line of input: an integer .
+#
+# Output Format:
+# A list on a single line containing the cubes of the first  fibonacci numbers.
+#
+# Sample Input
+# 5
+#
+# Sample Output
+# [0, 1, 1, 8, 27]
+
 cube = lambda x: x * x * x
+
 
 def fibonacci(n):
     if n <= 0:
@@ -9,7 +23,7 @@ def fibonacci(n):
         return [0, 1]
     fib_num = [0, 1]
     for i in range(2, n):
-        fib_num.append(fib_num[i-1] + fib_num[i-2])
+        fib_num.append(fib_num[i - 1] + fib_num[i - 2])
     return fib_num
 
 
