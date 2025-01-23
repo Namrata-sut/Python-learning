@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 
 class PokemonSchema(BaseModel):
+    """Represents a schema for a pokemon object."""
     name: str
     height: int
     weight: int
@@ -15,6 +16,7 @@ class PokemonSchema(BaseModel):
 
 
 class PokemonUpdateSchema(BaseModel):
+    """Represents a schema for updating pokemon object."""
     name: Optional[str] = None
     height: Optional[int] = None
     weight: Optional[int] = None

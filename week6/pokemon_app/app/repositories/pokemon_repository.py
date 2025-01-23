@@ -5,8 +5,14 @@ from db.database import PgDatabase
 
 
 class PokemonRepository:
+    """A repository class for interacting with the pokemon_table in the database."""
     @staticmethod
     async def get_pokemon_by_id(pokemon_id: int):
+        """Retrieves a single pokemon record from the database by its ID.
+            Args:
+                pokemon_id(int): The ID of the pokemon to retrieve.
+            Returns: A pokemon record or None if no pokemon with the given ID is found.
+        """
         try:
             with PgDatabase() as db:
                 db.cursor.execute(f"SELECT * FROM pokemon_table WHERE id = {pokemon_id}")
@@ -16,6 +22,9 @@ class PokemonRepository:
 
     @staticmethod
     async def get_all_pokemon():
+        """Retrieves all pokemon records present in database.
+            Returns: A list of pokemon records.
+        """
         try:
             with PgDatabase() as db:
                 query = "SELECT * FROM pokemon_table;"
@@ -26,11 +35,25 @@ class PokemonRepository:
 
     @staticmethod
     async def add_pokemon(payload: dict):
+        """Adds a new pokemon record to the database.
+            Args:
+                payload(dict): A dictionary containing the pokemon data to be added.
+                The dictionary must have followed keys:
+                - name(str)
+                - height(int)
+                - weight(int)
+                - xp(int)
+                - image_url(str)
+                - pokemon_url(str)
+                - abilities(List[dict])
+                - stats(List[dict])
+                - types(List[dict], optional)
+            Returns: True if the pokemon was added successfully.
+        """
         try:
             query = """INSERT INTO pokemon_table (
-                                    name, height, weight, xp, image_url, pokemon_url, abilities, stats, types
-                                )
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                    name, height, weight, xp, image_url, pokemon_url, abilities, stats, types
+                    )VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
             data = [
                 payload["name"],
                 payload["height"],
@@ -51,6 +74,10 @@ class PokemonRepository:
 
     @staticmethod
     async def delete_pokemon(pokemon_id: int):
+        """ Deletes a pokemon record from the database by its ID.
+            Args: pokemon_id(int): The ID of the pokemon to delete.
+            Returns: True if the pokemon was deleted successfully, False otherwise.
+        """
         query = f"DELETE FROM pokemon_table WHERE id = {pokemon_id}"
         try:
             with PgDatabase() as db:
@@ -65,10 +92,17 @@ class PokemonRepository:
 
     @staticmethod
     async def update_pokemon(pokemon_id: int, payload: dict):
+        """ Updates the existing pokemon records in the database.
+            Args:
+                pokemon_id(int): The ID of the pokemon to update.
+                payload(dict): The dictionary containing the updated pokemon data.
+            Returns: The updated pokemon record or None if the pokemon was not found.
+            Raises: HTTPException: If the pokemon with the given ID is not found(404 NOT FOUND) or
+                    if an error occurs during the update (400 BAD REQUEST)
+        """
         try:
             processed_payload = {
-                key: (json.dumps(value) if isinstance(value, (dict, list)) else value)
-                for key, value in payload.items()
+                key: (json.dumps(value) if isinstance(value, (dict, list)) else value) for key, value in payload.items()
             }
             columns = ", ".join(f"{key} = %s" for key in processed_payload.keys())
             query = f"UPDATE pokemon_table SET {columns} WHERE id = %s"
