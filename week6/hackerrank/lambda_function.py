@@ -1,9 +1,9 @@
 # Task
 # Input Format:
-# One line of input: an integer .
+# One line of input: an integer N.
 #
 # Output Format:
-# A list on a single line containing the cubes of the first  fibonacci numbers.
+# A list on a single line containing the cubes of the first N fibonacci numbers.
 #
 # Sample Input
 # 5
