@@ -22,8 +22,6 @@ async def load_pokemon_data():
     def remove_id(data):
         if isinstance(data, dict):
             return {key: remove_id(value) for key, value in data.items() if key != 'id'}
-        elif isinstance(data, list):
-            return [remove_id(item) for item in data]
         else:
             return data
 
@@ -96,17 +94,10 @@ async def update(pokemon_id: int, payload: PokemonUpdateSchema):
                 - message: describe the update outcome,
                 - data: the updated pokemon data if the update was successful.
         """
-    update_fields = []
-    values = []
 
     payload_dict = payload.dict(exclude_unset=True)
     if not payload_dict:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No fields to update.")
 
-    for key, value in payload_dict.items():
-        update_fields.append(key)
-        values.append(value)
-
-    data = {key: values[i] for i, key in enumerate(update_fields)}
-    pokemon_updated = await PokemonRepository.update_pokemon(pokemon_id, data)
+    pokemon_updated = await PokemonRepository.update_pokemon(pokemon_id, payload_dict)
     return {"success": True, "message": "Pokemon data updated successfully.", "data": pokemon_updated}
