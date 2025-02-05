@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, JSON
-from db.database_connection import Base
+from app.db.database_connection import Base
 
 
 class Pokemon(Base):
