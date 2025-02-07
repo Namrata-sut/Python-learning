@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="/static/create_pokemon.css">
+</head>
+<div class="container">
+    <form id="pokemon-form">
+            <h2>Add Pokemon</h2>
+        <div class="form-group row">
+
+            <label for="name" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" required><br>
+            </div>
+
+            <label for="height" class="col-sm-2 col-form-label">Height:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="height" required><br>
+            </div>
+
+            <label for="weight" class="col-sm-2 col-form-label">Weight:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="weight" required><br>
+            </div>
+
+            <label for="xp" class="col-sm-2 col-form-label">XP:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="xp" required><br>
+            </div>
+
+            <label for="image_url" class="col-sm-2 col-form-label">Image URL:</label>
+            <div class="col-sm-10">
+                <input type="url" class="form-control" id="image_url" required><br>
+            </div>
+
+            <label for="pokemon_url" class="col-sm-2 col-form-label">Pokemon URL:</label>
+            <div class="col-sm-10">
+                <input type="url" class="form-control" id="pokemon_url" required><br>
+            </div>
+
+            <label for="abilities" class="col-sm-2 col-form-label">Abilities:</label>
+            <div class="col-sm-10">
+                <textarea id="abilities" class="form-control" placeholder="e.g., overgrow:false, chlorophyll:true"></textarea><br>
+            </div>
+
+            <label for="stats" class="col-sm-2 col-form-label">Stats:</label>
+            <div class="col-sm-10">
+                <textarea id="stats" class="form-control" placeholder="e.g., hp:45, attack:49, defense:49"></textarea><br>
+            </div>
+
+            <label for="types" class="col-sm-2 col-form-label">Types:</label>
+            <div class="col-sm-10 ">
+                <input type="text" id="types" class="form-control" placeholder="e.g., grass, poison"><br>
+            </div>
+
+            <button class="btn btn-sm btn-primary" type="button" onclick="submitForm()">Create Pokemon</button>
+
+        </div>
+    </form>
+</div>
+
+<script>
+     function parseAbilities(input) {
+        return input.split(',').map(item => {
+            let [name, is_hidden] = item.trim().split(':');
+            return { name, is_hidden: is_hidden === 'true' };
+        });
+    }
+
+    function parseStats(input) {
+        return input.split(',').map(item => {
+            let [name, base_stat] = item.trim().split(':');
+            return { name, base_stat: parseInt(base_stat) };
+        });
+    }
+
+    function submitForm() {
+        console.log("Button clicked!");
+
+        const data = {
+            name: document.getElementById("name").value,
+            height: parseInt(document.getElementById("height").value),
+            weight: parseInt(document.getElementById("weight").value),
+            xp: parseInt(document.getElementById("xp").value),
+            image_url: document.getElementById("image_url").value,
+            pokemon_url: document.getElementById("pokemon_url").value,
+            abilities: parseAbilities(document.getElementById("abilities").value),
+            stats: parseStats(document.getElementById("stats").value),
+            types: document.getElementById("types").value.split(',').map(name => ({ name: name.trim() }))
+        };
+
+        console.log("Form Data:", data);
+
+        fetch("/create/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (!result || Object.keys(result).length === 0) {
+                alert("Failed to create Pokemon.");
+            } else {
+                alert("Pokemon created successfully!");
+                console.log(result);
+                window.location.href = "/create/";
+            }
+        })
+        .catch(error => {
+            console.error("Error in fetch:", error);
+            alert("Failed to create Pokemon.");
+        });
+    }
+</script>
+
+{% endblock content %}

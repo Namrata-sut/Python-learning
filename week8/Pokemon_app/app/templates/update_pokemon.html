@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="/static/create_pokemon.css">
+</head>
+<div class="container px-2 ps-2">
+
+<form id="pokemon-form" action="/update/{{updated_pokemon.id}}" method="post">
+    <h2>Update Pokemon</h2>
+    <div class="form-group row">
+    <label for="name" class="col-sm-2 col-form-label">Name:</label>
+        <div class="col-sm-10">
+            <input type="text" id="name" value="{{ updated_pokemon.name }}"><br>
+        </div>
+
+    <label for="height" class="col-sm-2 col-form-label">Height:</label>
+        <div class="col-sm-10">
+            <input type="number" id="height" value="{{ updated_pokemon.height }}"><br>
+        </div>
+
+    <label for="weight" class="col-sm-2 col-form-label">Weight:</label>
+        <div class="col-sm-10">
+            <input type="number" id="weight" value="{{ updated_pokemon.weight }}"><br>
+        </div>
+
+    <label for="xp" class="col-sm-2 col-form-label">XP:</label>
+        <div class="col-sm-10">
+            <input type="number" id="xp" value="{{ updated_pokemon.xp }}"><br>
+        </div>
+
+    <label for="image_url" class="col-sm-2 col-form-label">Image URL:</label>
+        <div class="col-sm-10">
+            <input type="url" id="image_url" value="{{ updated_pokemon.image_url }}"><br>
+        </div>
+
+    <label for="pokemon_url" class="col-sm-2 col-form-label">Pokemon URL:</label>
+        <div class="col-sm-10">
+            <input type="url" id="pokemon_url" value="{{ updated_pokemon.pokemon_url }}"><br>
+        </div>
+
+    <label for="abilities" class="col-sm-2 col-form-label">Abilities (JSON Format):</label>
+        <div class="col-sm-10">
+            <textarea id="abilities">{{ updated_pokemon.abilities | tojson }}</textarea><br>
+        </div>
+    <label for="stats" class="col-sm-2 col-form-label">Stats (JSON Format):</label>
+        <div class="col-sm-10">
+            <textarea id="stats">{{ updated_pokemon.stats | tojson }}</textarea><br>
+        </div>
+
+    <label for="types" class="col-sm-2 col-form-label">Types (JSON Format):</label>
+        <div class="col-sm-10">
+            <textarea id="types">{{ updated_pokemon.types | tojson }}</textarea><br>
+        </div>
+    <button class="btn btn-primary" type="submit">Update Pokemon</button>
+    </div>
+</form></div>
+{% endblock content %}

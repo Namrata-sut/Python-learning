@@ -1,0 +1,54 @@
+/* Style the form container */
+#pokemon-form {
+    max-width: 500px !important;
+    margin: 20px auto !important;
+    padding: 200px !important;
+    background-color: #f9f9f9 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+.container {
+padding-left: 2000px;
+}
+
+/* Style labels */
+#pokemon-form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Style input fields */
+#pokemon-form input,
+#pokemon-form textarea {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Add some height to textareas */
+#pokemon-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Style the submit button */
+#pokemon-form .btn-primary {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pokemon-form .btn-primary:hover {
+    background-color: #0056b3;
+}

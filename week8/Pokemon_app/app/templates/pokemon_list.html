@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemons</title>
+    <link rel="stylesheet" href="/static/pokemon_list.css">
+</head>
+<body>
+<h1>Pokemon List</h1>
+<div class="search-bar">
+    <form method="GET" action="/pokemon_by_name" style="display: inline;">
+        <input type="text" name="pokemon_name" id="searchByName" placeholder="Search by Name" required pattern="[A-Za-z]+" title="Only letters are allowed.">
+        <button type="submit" >Search</button>
+    </form>
+    <form method="GET" action="/search_by_id" style="display: inline;">
+        <input type="number" name="pokemon_id" id="searchById" placeholder="Search by ID" required >
+        <button type="submit" >Search</button>
+    </form>
+</div>
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>XP</th>
+                <th>image_url</th>
+                <th>pokemon_url</th>
+                <th>abilities</th>
+                <th>Stat</th>
+                <th>types</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if pokemons is iterable %}
+            {% for pokemon in pokemons %}
+                <tr>
+                    <td><strong>{{ pokemon.name | capitalize }}</strong></td>
+                    <td>{{ pokemon.height }} cm</td>
+                    <td>{{ pokemon.weight }} kg</td>
+                    <td>{{ pokemon.xp }}</td>
+                    <td><a href="{{ pokemon.image_url }}" target="_blank">{{ pokemon.name }}-image</a></td>
+                    <td><a href="{{ pokemon.pokemon_url }}" target="_blank">{{pokemon.name}}</a></td>
+                    <td>{{ pokemon.abilities }}</td>
+                    <td>{{ pokemon.stats }}</td>
+                    <td>{{ pokemon.types }}</td>
+                    <td>
+                        <a href="/edit/{{pokemon.id}}" class="btn btn-success">Edit</a> | <a href="/delete_pokemon/{{ pokemon.id }}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td><strong>{{ pokemons.name | capitalize }}</strong></td>
+                <td>{{ pokemons.height }} cm</td>
+                <td>{{ pokemons.weight }} kg</td>
+                <td>{{ pokemons.xp }}</td>
+                <td><a href="{{ pokemons.image_url }}" target="_blank">{{ pokemons.name }}-image</a></td>
+                <td><a href="{{ pokemons.pokemon_url }}" target="_blank">{{ pokemons.name }}</a></td>
+                <td>{{ pokemons.abilities }}</td>
+                <td>{{ pokemons.stats }}</td>
+                <td>{{ pokemons.types }}</td>
+                <td>
+                <a href="/edit/{{pokemon.id}}" class="btn btn-success">Edit</a> | <a href="/delete_pokemon/{{ pokemon.id }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+         {% endif %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
