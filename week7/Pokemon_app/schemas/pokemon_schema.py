@@ -26,4 +26,3 @@ class PokemonUpdateSchema(BaseModel):
     abilities: Optional[List[dict]] = None
     stats: Optional[List[dict]] = None
     types: Optional[List[dict]] = None
-

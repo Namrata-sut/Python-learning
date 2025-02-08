@@ -2,8 +2,8 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
-from app.models.pokemon_model import Pokemon
-from app.schemas.pokemon_schema import PokemonSchema, PokemonUpdateSchema
+from models.pokemon_model import Pokemon
+from schemas.pokemon_schema import PokemonSchema, PokemonUpdateSchema
 
 
 class PokemonNotFound(HTTPException):

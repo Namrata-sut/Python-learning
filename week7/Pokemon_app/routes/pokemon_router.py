@@ -4,19 +4,16 @@ import requests
 from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
-from starlette.requests import Request
-from starlette.responses import HTMLResponse
-from starlette.templating import Jinja2Templates
 
-from app.db.database_connection import get_db
-from app.schemas.pokemon_schema import PokemonSchema, PokemonUpdateSchema
-from app.services.pokemon_service import PokemonService
+from db.database_connection import get_db
+from schemas.pokemon_schema import PokemonSchema, PokemonUpdateSchema
+from services.pokemon_service import PokemonService
+
 
 router = APIRouter()
-templates = Jinja2Templates(directory='app/templates')
 
 
-@router.get("/load_data")
+@router.get("/")
 async def load_data(URL: str, db: AsyncSession = Depends(get_db)):
     try:
         response = requests.get(URL)
@@ -39,12 +36,7 @@ async def load_data(URL: str, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Error: {e}")
 
 
-@router.get("/create/", response_class=HTMLResponse)
-def create_form(request: Request):
-    return templates.TemplateResponse("create_pokemon.html", {"request": request})
-
-
-@router.post("/create/", response_model=PokemonSchema, status_code=status.HTTP_201_CREATED)
+@router.post("/pokemon", response_model=PokemonSchema, status_code=status.HTTP_201_CREATED)
 async def create(payload: PokemonSchema, db: AsyncSession = Depends(get_db)):
     try:
         data = await PokemonService.add_new_pokemon(payload, db)
@@ -53,12 +45,11 @@ async def create(payload: PokemonSchema, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Error: {e}")
 
 
-@router.get("/read_data", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-async def get_all(request: Request, db: AsyncSession = Depends(get_db)):
+@router.get("/pokemon", response_model=List[PokemonSchema], status_code=status.HTTP_200_OK)
+async def get_all(db: AsyncSession = Depends(get_db)):
     try:
         pokemon_list = await PokemonService.get_all_pokemons(db)
-        print(pokemon_list)
-        return templates.TemplateResponse("pokemon_list.html", {"request": request, "pokemons": pokemon_list})
+        return pokemon_list
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error: {e}")
 
