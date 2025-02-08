@@ -1,14 +1,14 @@
 /* Style the form container */
 #pokemon-form {
-    max-width: 500px !important;
+    max-width: 600px !important;
     margin: 20px auto !important;
-    padding: 200px !important;
+    padding: 10px !important;
     background-color: #f9f9f9 !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
 }
 .container {
-padding-left: 2000px;
+padding-left: 10px;
 }
 
 /* Style labels */
