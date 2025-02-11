@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .result-container {
+            border: 2px solid #333;
+            padding: 20px;
+            display: inline-block;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #333;
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h2>Quiz Completed!</h2>
+        <p>You answered <strong>{{ correct_count }}</strong> out of <strong>{{ total_questions }}</strong> questions correctly.</p>
+        <p class="score">Your Score: <strong>{{ score_percentage }}%</strong></p>
+<!--        <a href="/">Back to Home</a>-->
+    </div>
+</body>
+</html>

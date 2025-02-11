@@ -1,0 +1,7 @@
+.question {
+        margin-bottom: 20px; /* Space between questions */
+    }
+.question label {
+    display: block; /* Each option on a new line */
+    margin-bottom: 8px; /* Space between options */
+}
