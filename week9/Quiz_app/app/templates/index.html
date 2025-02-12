@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Master - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to Quiz Master – Test Your Knowledge! &#10032 &#x2730</h1>
+
+    <section class="container">
+        <div class="form-container">
+            {% if page == "login" %}
+            <!-- Login Form -->
+            <section id="login">
+                <p>&#128071 Welcome back! Log in to continue exploring quizzes and testing your knowledge!</p>
+                <div class="content">
+                    <div class="title"><span>Login</span></div>
+                    <form action="/login" method="post">
+                        <div class="label1">Your Email</div>
+                        <div class="input2">
+                            <input type="email" name="email" placeholder="Enter your Email here" required>
+                        </div>
+
+                        <div class="label1">Your Password</div>
+                        <div class="input2">
+                            <input type="password" name="password" placeholder="Enter your Password here" required>
+                        </div>
+
+                        <div class="button"><button type="submit">Login</button></div>
+                    </form>
+                    <p>&#128073 New user? <a href="{{ url_for('signup') }}">Sign up here</a> to start your journey!</p>
+                </div>
+            </section>
+
+            {% else %}
+            <!-- Sign Up Form (Default) -->
+            <section id="signup">
+                <p>&#128071 New here? Sign up to unlock exciting quizzes, explore topics, and test your skills!</p>
+                <div class="content">
+                    <div class="title"><span>Sign Up</span></div>
+                    <form action="/signup" method="post">
+                        <div class="label1">Your Name</div>
+                        <div class="input2">
+                            <input type="text" name="name" placeholder="Enter your Name here" required>
+                        </div>
+
+                        <div class="label1">Your Email</div>
+                        <div class="input2">
+                            <input type="email" name="email" placeholder="Enter your Email here" required>
+                        </div>
+
+                        <div class="label1">Your Password</div>
+                        <div class="input2">
+                            <input type="password" name="password" placeholder="Enter your Password here" required>
+                        </div>
+
+                        <div class="button"><button type="submit">Sign Up</button></div>
+                    </form>
+                    <p>&#128073 Already have an account? <a href="{{ url_for('login') }}">Login here</a> to explore quizzes and boost your knowledge!</p>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+
+    </section>
+
+</body>
+</html>

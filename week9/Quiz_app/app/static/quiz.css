@@ -1,7 +1,72 @@
-.question {
-        margin-bottom: 20px; /* Space between questions */
-    }
-.question label {
-    display: block; /* Each option on a new line */
-    margin-bottom: 8px; /* Space between options */
+.quizzes {
+    display: flex;
+    justify-content: center; /* Center align items */
+    padding: 20px;
+}
+
+.quizzes ul {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap into rows */
+    justify-content: center;
+    gap: 20px; /* Space between items */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    max-width: 900px; /* Adjust this to control row width */
+}
+
+.quizzes li {
+    flex: 1 1 calc(25% - 20px); /* Each item takes 25% width minus spacing */
+    max-width: 220px; /* Ensures consistent item width */
+    color: white;
+    padding: 15px;
+    background-color: #61b55f;
+    text-align: center;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.quizzes a {
+    text-decoration: none; /* Removes underline from links */
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between; /* Space between text and arrow */
+    align-items: center;
+}
+
+.quizzes li:hover {
+    background-color: #28a745;
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #28a745;
+    text-align: center;
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.search-bar input {
+     height: 30px;
+     width: 300px;
+}
+.search-bar button {
+     height: 30px;
+     width: 60px;
 }

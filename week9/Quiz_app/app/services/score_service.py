@@ -8,8 +8,8 @@ from app.models.user_model import User
 
 async def process_quiz_submission(request: Request, db: AsyncSession):
     form_data = await request.form()
-    quiz_id = int(form_data.get("quiz_id", 0))
-
+    quiz_id_str = form_data.get("quiz_id", "0").strip()
+    quiz_id = int(quiz_id_str)
     result = await db.execute(select(Question).where(Question.quiz_id == quiz_id))
     questions = result.scalars().all()
     total_questions = len(questions)
@@ -50,5 +50,6 @@ async def process_quiz_submission(request: Request, db: AsyncSession):
         "message": "Quiz submitted successfully!",
         "correct_count": correct_count,
         "total_questions": total_questions,
-        "score": score_percentage
+        "score": score_percentage,
+        "quiz_id": quiz_id
     }

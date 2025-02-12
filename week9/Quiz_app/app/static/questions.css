@@ -1,0 +1,93 @@
+h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #28a745;
+    text-align: center;
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Container styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Quiz container */
+form {
+    width: 60%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for each question */
+.question {
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style for options */
+.question label {
+    display: block; /* Aligns options vertically */
+    margin: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Styling checkboxes */
+.question input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Pagination styling */
+.pagination {
+    margin: 20px 0;
+}
+
+.pagination a {
+    padding: 8px 15px;
+    margin: 5px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background: #0056b3;
+}
+
+/* Submit button */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}

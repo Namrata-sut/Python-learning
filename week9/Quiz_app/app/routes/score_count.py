@@ -21,4 +21,5 @@ async def submit_quiz(request: Request, db: AsyncSession = Depends(get_db)):
         "correct_count": result["correct_count"],
         "total_questions": result["total_questions"],
         "score_percentage": result["score"],
+        "quiz_id": result["quiz_id"]
     })
