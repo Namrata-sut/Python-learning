@@ -12,7 +12,7 @@ class CreateUserRequest(BaseModel):
     username: str
     email: str
     password: str
-    role: UserRole = UserRole.user  # Default role
+    role: Optional[str] = UserRole.user  # Default role
 
 
 class DataToken(BaseModel):

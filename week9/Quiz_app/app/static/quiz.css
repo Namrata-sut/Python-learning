@@ -1,3 +1,6 @@
+body{
+    background-color: #f4f4f4;
+}
 .quizzes {
     display: flex;
     justify-content: center; /* Center align items */
@@ -18,9 +21,9 @@
 .quizzes li {
     flex: 1 1 calc(25% - 20px); /* Each item takes 25% width minus spacing */
     max-width: 220px; /* Ensures consistent item width */
-    color: white;
+    color: black;
     padding: 15px;
-    background-color: #61b55f;
+    background-color: white;
     text-align: center;
     border-radius: 10px;
     box-sizing: border-box;
@@ -29,15 +32,15 @@
 
 .quizzes a {
     text-decoration: none; /* Removes underline from links */
-    color: white;
-    font-weight: bold;
+    color: black;
+    font-weight: underline;
     display: flex;
     justify-content: space-between; /* Space between text and arrow */
     align-items: center;
 }
 
 .quizzes li:hover {
-    background-color: #28a745;
+    background-color: #d7d2d2;
 }
 
 h2 {

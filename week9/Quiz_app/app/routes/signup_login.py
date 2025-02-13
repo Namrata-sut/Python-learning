@@ -12,7 +12,7 @@ from starlette.responses import RedirectResponse
 from app.utils import hash_pass, verify_password, create_access_token
 from app.db.db_connection import get_db
 from app.models.user_model import User
-from app.schemas.user import CreateUserRequest, UserResponse, Token
+from app.schemas.user import CreateUserRequest, UserResponse
 # from app.utils import get_hashed_password, verify_password, create_access_token, create_refresh_token
 
 signup_login_router = APIRouter()
@@ -28,17 +28,24 @@ async def signup(request: Request):
 
 
 @signup_login_router.post("/signup", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
-def create_users(user: CreateUserRequest, db: AsyncSession = Depends(get_db)):
-    hashed_pass = hash_pass(user.password)
+async def create_users(name: str = Form(...), email: str = Form(...), password: str = Form(...),
+                 db: AsyncSession = Depends(get_db)):
 
-    user.password = hashed_pass
+    hashed_pass = hash_pass(password)
+    user = CreateUserRequest(
+        username=name,
+        email=email,
+        password=hashed_pass
+    )
 
-    new_user = User(**user.dict())
+    new_user = User(username=user.username,
+                    email=user.email,
+                    password=user.password,
+                    role=user.role)
     db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return new_user
+    await db.commit()
+    await db.refresh(new_user)
+    return RedirectResponse(url="/login", status_code=303)
 
 
 @signup_login_router.get("/login")
