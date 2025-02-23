@@ -4,14 +4,14 @@ from fastapi import Request
 from app.models.question_model import Question
 from app.models.score_model import Score
 from app.models.user_model import User
+from app.services.question_service import QuestionService
 
 
-async def process_quiz_submission(request: Request, db: AsyncSession):
+async def process_quiz_submission(request: Request, current_user: User, db: AsyncSession):
     form_data = await request.form()
     quiz_id_str = form_data.get("quiz_id", "0").strip()
     quiz_id = int(quiz_id_str)
-    result = await db.execute(select(Question).where(Question.quiz_id == quiz_id))
-    questions = result.scalars().all()
+    questions = await QuestionService.get_by_quiz_id(quiz_id, db)
     total_questions = len(questions)
 
     if total_questions == 0:
@@ -28,16 +28,8 @@ async def process_quiz_submission(request: Request, db: AsyncSession):
 
     score_percentage = (correct_count / total_questions) * 100
 
-    user = User(
-        id=1,
-        username="Namrata",
-        email="Namrata@gmail.com",
-        password="Namrata@123",
-        role="user"
-    )
-
     score_entry = Score(
-        user_id=user.id,
+        user_id=current_user.id,
         quiz_id=quiz_id,
         score=score_percentage,
         timestamp=text("'0 seconds'::INTERVAL")
