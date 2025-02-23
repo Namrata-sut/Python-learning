@@ -2,17 +2,13 @@ import enum
 from typing import Optional
 from pydantic import BaseModel
 
-
-class UserRole(str, enum.Enum):
-    admin = "admin"
-    user = "user"
+from app.models.user_model import UserRole
 
 
 class CreateUserRequest(BaseModel):
     username: str
     email: str
     password: str
-    role: Optional[str] = UserRole.user  # Default role
 
 
 class DataToken(BaseModel):

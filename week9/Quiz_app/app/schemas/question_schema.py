@@ -6,13 +6,11 @@ class QuestionInputSchema(BaseModel):
     question: str
     options: List[str]
     answer: str
-    category: str
-    level: str
+    quiz_id: int
 
 
 class QuestionUpdateSchema(BaseModel):
     question: Optional[str] = None
-    options: Optional[str] = None
+    options: Optional[List[str]] = None
     answer: Optional[str] = None
-    category: Optional[str] = None
-    level: Optional[str] = None
+    quiz_id: Optional[int] = None

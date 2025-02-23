@@ -4,7 +4,8 @@ from starlette import status
 from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
-from app.utils import get_current_user
+from app.schemas.quiz_schema import QuizInputSchema, QuizUpdateSchema
+from app.utils import get_current_user, admin_only
 from app.db.db_connection import get_db
 from app.models.user_model import User
 from app.services.quiz_service import QuizService
@@ -35,10 +36,46 @@ async def search_category(request: Request, category_name: str, current_user: Us
 
 @quiz_router.get("/get_all_quizzes/{category_name}")
 async def get_quiz_by_category_level(requst: Request, category_name: str = Path(title="category."),
-                                     db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)):
+                                     db: AsyncSession = Depends(get_db),
+                                     current_user: User = Depends(get_current_user)):
     quizzes = await QuizService.get_by_category(category_name, db)
     return templates.TemplateResponse("quizzes.html", {
         "request": requst,
         "quizzes": quizzes,
         "search_name": category_name
     })
+
+
+@quiz_router.get("/get_quiz_by_id/{quiz_id}")
+async def get_quiz_by_id(quiz_id: int, db: AsyncSession = Depends(get_db),
+                         current_user: User = Depends(get_current_user)):
+    quiz = await QuizService.get_quiz_by_id(quiz_id, db)
+    return quiz
+
+
+@quiz_router.post("/add_quiz")
+async def add_quiz(payload: QuizInputSchema, db: AsyncSession = Depends(get_db),
+                   current_user: User = Depends(admin_only)):
+    added_quiz = await QuizService.add_quiz(payload, db)
+    return added_quiz
+
+
+@quiz_router.put("/update_quiz/{quiz_id}")
+async def update_quiz(quiz_id: int, payload: QuizInputSchema, db: AsyncSession = Depends(get_db),
+                      current_user: User = Depends(admin_only)):
+    updated_quiz = await QuizService.update_quiz(quiz_id, payload, db)
+    return updated_quiz
+
+
+@quiz_router.patch("/partial_update_quiz/{quiz_id}")
+async def partial_update_quiz(quiz_id: int, payload: QuizUpdateSchema, db: AsyncSession = Depends(get_db),
+                              current_user: User = Depends(admin_only)):
+    updated_quiz = await QuizService.partial_update_quiz(quiz_id, payload, db)
+    return updated_quiz
+
+
+@quiz_router.delete("/delete_quiz")
+async def delete_quiz(quiz_id: int, db: AsyncSession = Depends(get_db),
+                      current_user: User = Depends(admin_only)):
+    quiz_deleted = await QuizService.delete_quiz(quiz_id, db)
+    return quiz_deleted
