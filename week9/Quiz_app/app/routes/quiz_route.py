@@ -27,10 +27,11 @@ async def get_all_quizzes(request: Request, db: AsyncSession = Depends(get_db),
         Returns:
             TemplateResponse: A rendered template displaying the list of quizzes.
         """
-    if not current_user:
-        raise HTTPException(status_code=401, detail="Unauthorized. Please log in.")
-    quizzes = await QuizService.get_all(db)
-    return templates.TemplateResponse("quizzes.html", {"request": request, "quizzes": quizzes})
+    try:
+        quizzes = await QuizService.get_all(db)
+        return templates.TemplateResponse("quizzes.html", {"request": request, "quizzes": quizzes})
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.get("/get_quizzes_by_category")
@@ -44,13 +45,16 @@ async def search_category(request: Request, category_name: str, current_user: Us
         Returns:
             RedirectResponse: Redirects to the endpoint that fetches quizzes by category.
     """
-    if not category_name.isalpha():
-        return templates.TemplateResponse("quizzes.html", {
-            "request": request,
-            "error": "Invalid Category. Please enter a valid string."
-        })
-    lower_category = category_name.lower()
-    return RedirectResponse(url=f"/get_all_quizzes/{lower_category}", status_code=status.HTTP_303_SEE_OTHER)
+    try:
+        if not category_name.isalpha():
+            return templates.TemplateResponse("quizzes.html", {
+                "request": request,
+                "error": "Invalid Category. Please enter a valid string."
+            })
+        lower_category = category_name.lower()
+        return RedirectResponse(url=f"/get_all_quizzes/{lower_category}", status_code=status.HTTP_303_SEE_OTHER)
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.get("/get_all_quizzes/{category_name}")
@@ -67,12 +71,15 @@ async def get_quiz_by_category(request: Request, category_name: str = Path(title
         Returns:
             TemplateResponse: A rendered template displaying quizzes under the specified category.
         """
-    quizzes = await QuizService.get_by_category(category_name, db)
-    return templates.TemplateResponse("quizzes.html", {
-        "request": request,
-        "quizzes": quizzes,
-        "search_name": category_name
-    })
+    try:
+        quizzes = await QuizService.get_by_category(category_name, db)
+        return templates.TemplateResponse("quizzes.html", {
+            "request": request,
+            "quizzes": quizzes,
+            "search_name": category_name
+        })
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.get("/get_quiz_by_id/{quiz_id}")
@@ -87,8 +94,11 @@ async def get_quiz_by_id(quiz_id: int, db: AsyncSession = Depends(get_db),
         Returns:
             Quiz: The requested quiz object.
     """
-    quiz = await QuizService.get_quiz_by_id(quiz_id, db)
-    return quiz
+    try:
+        quiz = await QuizService.get_quiz_by_id(quiz_id, db)
+        return quiz
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.post("/add_quiz")
@@ -104,8 +114,11 @@ async def add_quiz(payload: QuizInputSchema, db: AsyncSession = Depends(get_db),
         Returns:
             Quiz: The newly created quiz.
         """
-    added_quiz = await QuizService.add_quiz(payload, db)
-    return added_quiz
+    try:
+        added_quiz = await QuizService.add_quiz(payload, db)
+        return added_quiz
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.put("/update_quiz/{quiz_id}")
@@ -122,8 +135,11 @@ async def update_quiz(quiz_id: int, payload: QuizInputSchema, db: AsyncSession =
         Returns:
             Quiz: The updated quiz object.
     """
-    updated_quiz = await QuizService.update_quiz(quiz_id, payload, db)
-    return updated_quiz
+    try:
+        updated_quiz = await QuizService.update_quiz(quiz_id, payload, db)
+        return updated_quiz
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.patch("/partial_update_quiz/{quiz_id}")
@@ -140,8 +156,11 @@ async def partial_update_quiz(quiz_id: int, payload: QuizUpdateSchema, db: Async
         Returns:
             Quiz: The updated quiz object.
     """
-    updated_quiz = await QuizService.partial_update_quiz(quiz_id, payload, db)
-    return updated_quiz
+    try:
+        updated_quiz = await QuizService.partial_update_quiz(quiz_id, payload, db)
+        return updated_quiz
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @quiz_router.delete("/delete_quiz")
@@ -157,5 +176,8 @@ async def delete_quiz(quiz_id: int, db: AsyncSession = Depends(get_db),
         Returns:
             dict: A success message confirming deletion.
     """
-    quiz_deleted = await QuizService.delete_quiz(quiz_id, db)
-    return quiz_deleted
+    try:
+        quiz_deleted = await QuizService.delete_quiz(quiz_id, db)
+        return quiz_deleted
+    except Exception as e:
+        return {"Error Occurred": e}

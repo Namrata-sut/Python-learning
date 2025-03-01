@@ -48,14 +48,17 @@ async def create_user(
         Returns:
             RedirectResponse: Redirects to the login page after successful registration.
         """
-    hashed_pass = hash_pass(password)
-    user = CreateUserRequest(
-        username=name,
-        email=email,
-        password=hashed_pass
-    )
-    await UserService.add_user(user, db)
-    return RedirectResponse(url="/login", status_code=303)
+    try:
+        hashed_pass = hash_pass(password)
+        user = CreateUserRequest(
+            username=name,
+            email=email,
+            password=hashed_pass
+        )
+        await UserService.add_user(user, db)
+        return RedirectResponse(url="/login", status_code=303)
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @signup_login_router.get("/login")
@@ -81,10 +84,13 @@ async def login(user_details: OAuth2PasswordRequestForm = Depends(), db: AsyncSe
            RedirectResponse: Redirects to `/get_all_quizzes` upon successful login.
                             store the access token in a secure HTTP-only cookie.
     """
-    access_token = await UserService.get_user(user_details, db)
-    response = RedirectResponse(url="/get_all_quizzes", status_code=303)
-    response.set_cookie(key="access_token", value=access_token, httponly=True)
-    return response
+    try:
+        access_token = await UserService.get_user(user_details, db)
+        response = RedirectResponse(url="/get_all_quizzes", status_code=303)
+        response.set_cookie(key="access_token", value=access_token, httponly=True)
+        return response
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @signup_login_router.post("/logout")
@@ -97,8 +103,11 @@ async def logout(request: Request, response: Response):
     Returns:
         dict: A message confirming successful logout.
     """
-    token = request.cookies.get("access_token")
-    if token:
-        response.delete_cookie("access_token")
+    try:
+        token = request.cookies.get("access_token")
+        if token:
+            response.delete_cookie("access_token")
 
-    return {"message": "Logged out successfully"}
+        return {"message": "Logged out successfully"}
+    except Exception as e:
+        return {"Error Occurred": e}

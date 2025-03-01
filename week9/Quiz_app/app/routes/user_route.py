@@ -10,7 +10,7 @@ from app.utils import admin_only, get_current_user
 user_router = APIRouter()
 
 
-@user_router.get("/get_user_by_id/{user_id}", response_model=UserResponse)
+@user_router.get("/get_user_by_id/{user_id}")
 async def get_user_by_id(user_id: int, db: AsyncSession = Depends(get_db), current_user: User = Depends(admin_only)):
     """
         retrieve user details by user ID.
@@ -21,8 +21,11 @@ async def get_user_by_id(user_id: int, db: AsyncSession = Depends(get_db), curre
         Returns:
             User: The user details retrieved from the database.
         """
-    user = await UserService.get_user_by_id(user_id, db)
-    return user
+    try:
+        user = await UserService.get_user_by_id(user_id, db)
+        return user
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @user_router.put("/update_user/{user_id}", response_model=UserResponse)
@@ -38,8 +41,11 @@ async def update_user(user_id: int, payload: UserUpdateSchema, db: AsyncSession 
         Returns:
             User: The updated user details.
     """
-    user_updated = await UserService.update_user(user_id, payload, db)
-    return user_updated
+    try:
+        user_updated = await UserService.update_user(user_id, payload, db)
+        return user_updated
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @user_router.patch("/partial_update_user/{user_id}", response_model=UserResponse)
@@ -55,8 +61,11 @@ async def partial_update_user(user_id: int, payload: PartialUserUpdateSchema, db
         Returns:
             User: The updated user details.
     """
-    user_updated = await UserService.partial_update_user(user_id, payload, db)
-    return user_updated
+    try:
+        user_updated = await UserService.partial_update_user(user_id, payload, db)
+        return user_updated
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @user_router.delete("/delete_user")
@@ -70,5 +79,8 @@ async def delete_user(user_id: int, db: AsyncSession = Depends(get_db), current_
         Returns:
             dict: Confirmation of user deletion.
     """
-    user_deleted = await UserService.delete_user(user_id, db)
-    return user_deleted
+    try:
+        user_deleted = await UserService.delete_user(user_id, db)
+        return user_deleted
+    except Exception as e:
+        return {"Error Occurred": e}

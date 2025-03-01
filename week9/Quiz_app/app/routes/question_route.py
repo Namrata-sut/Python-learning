@@ -28,10 +28,13 @@ async def get_questions_by_quiz(quiz_id: int, request: Request, db: AsyncSession
         Returns:
             HTMLResponse: A rendered template displaying the quiz questions.
     """
-    questions = await QuestionService.get_by_quiz_id(quiz_id, db)
-    quiz_result = await QuizService.get_quiz_by_id(quiz_id, db)
-    return templates.TemplateResponse("questions.html",
-                                      {"request": request, "questions": questions, "quiz": quiz_result})
+    try:
+        questions = await QuestionService.get_by_quiz_id(quiz_id, db)
+        quiz_result = await QuizService.get_quiz_by_id(quiz_id, db)
+        return templates.TemplateResponse("questions.html",
+                                          {"request": request, "questions": questions, "quiz": quiz_result})
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @question_router.get("/get_all_questions")
@@ -46,8 +49,11 @@ async def get_all_questions(db: AsyncSession = Depends(get_db),
         Returns:
             List[Question]: A list of all questions.
     """
-    questions = await QuestionService.get_all(db)
-    return questions
+    try:
+        questions = await QuestionService.get_all(db)
+        return questions
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @question_router.post("/add_question")
@@ -64,8 +70,11 @@ async def add_question(payload: QuestionInputSchema, db: AsyncSession = Depends(
        Returns:
            Question: The newly created question.
        """
-    question_added = await QuestionService.add(payload, db)
-    return question_added
+    try:
+        question_added = await QuestionService.add(payload, db)
+        return question_added
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @question_router.patch("/update_question/{question_id}")
@@ -83,8 +92,11 @@ async def partial_update_question(question_id: int, payload: QuestionUpdateSchem
     Returns:
         Question: The updated question object.
     """
-    updated_question = await QuestionService.update(payload, question_id, db)
-    return updated_question
+    try:
+        updated_question = await QuestionService.update(payload, question_id, db)
+        return updated_question
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @question_router.put("/update_question/{question_id}")
@@ -102,8 +114,11 @@ async def update_question(question_id: int, payload: QuestionInputSchema,
     Returns:
         Question: The updated question object.
     """
-    updated_question = await QuestionService.full_update(payload, question_id, db)
-    return updated_question
+    try:
+        updated_question = await QuestionService.full_update(payload, question_id, db)
+        return updated_question
+    except Exception as e:
+        return {"Error Occurred": e}
 
 
 @question_router.delete("/delete_question/{question_id}")
@@ -119,5 +134,8 @@ async def delete_question(question_id: int, db: AsyncSession = Depends(get_db),
        Returns:
            dict: A success message confirming deletion.
     """
-    question_deleted = await QuestionService.delete(question_id, db)
-    return question_deleted
+    try:
+        question_deleted = await QuestionService.delete(question_id, db)
+        return question_deleted
+    except Exception as e:
+        return {"Error Occurred": e}

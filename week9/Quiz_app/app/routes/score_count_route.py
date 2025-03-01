@@ -27,12 +27,15 @@ async def submit_quiz(request: Request, db: AsyncSession = Depends(get_db),
         Returns:
             TemplateResponse: A rendered HTML template displaying the quiz results.
     """
-    result = await process_quiz_submission(request, current_user, db)
+    try:
+        result = await process_quiz_submission(request, current_user, db)
 
-    return templates.TemplateResponse("score.html", {
-        "request": request,
-        "correct_count": result["correct_count"],
-        "total_questions": result["total_questions"],
-        "score_percentage": result["score"],
-        "quiz_id": result["quiz_id"]
-    })
+        return templates.TemplateResponse("score.html", {
+            "request": request,
+            "correct_count": result["correct_count"],
+            "total_questions": result["total_questions"],
+            "score_percentage": result["score"],
+            "quiz_id": result["quiz_id"]
+        })
+    except Exception as e:
+        return {"Error Occurred": e}
