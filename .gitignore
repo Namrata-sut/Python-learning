@@ -2,3 +2,14 @@ __pycache__/
 venv
 .idea/
 .Some_concepts/
+
+# Ignore specific files
+week1/chapter/chapter1_python_basics.py
+week1/chapter/chapter2_flow_control.py
+week1/chapter/chapter3_functions.py
+week2/chapter/chapter7_pattern_matching_with_re_ex.py
+week2/chapter/chapter8_input_validations.py
+week5/hackerrank/built_ins_any_all.py
+week5/hackerrank/built_ins_eval.py
+week6/pokemon_app/app/routers/pokemon_router.py
+week7/Pokemon_app/db/database_connection.py

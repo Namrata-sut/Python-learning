@@ -1,4 +1,3 @@
-
 import requests
 from fastapi import FastAPI, HTTPException, status
 
@@ -8,11 +7,13 @@ pokemon_data = {}
 
 app = FastAPI()
 
+
 class PokemonNotFound(HTTPException):
     def __init__(self, pokemon_id: int):
         self.pokemon_id = pokemon_id
         self.detail = f"Pokemon with ID {self.pokemon_id} not found."
         super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=self.detail)
+
 
 class PokemonEmptyDataError(HTTPException):
     def __init__(self):

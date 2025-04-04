@@ -3,3 +3,4 @@
 # and print the result using eval(var).
 exp = input()
 eval_exp = eval(exp)
+print(eval_exp)

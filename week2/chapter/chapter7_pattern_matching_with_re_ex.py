@@ -79,7 +79,7 @@ print(mo6.group()) # 'Batwoman'
 # Matching Zero or More with the Star
 batRegex1 = re.compile(r'Bat(wo)*man')
 mo7 = batRegex1.search('The Adventures of Batman')
-print(mo7.group()) # 'Batman'
+print("======", mo7.group()) # 'Batman'
 
 mo8 = batRegex1.search('The Adventures of Batwoman') # 'Batwoman'
 print(mo2.group())
@@ -92,8 +92,8 @@ _batRegex = re.compile(r'Bat(wo)+man')
 match_object = _batRegex.search('The Adventures of Batwoman')
 print(match_object.group()) # 'Batwoman'
 
-match_object1 = batRegex.search('The Adventures of Batwowowowoman')
-print(match_object1.group()) # 'Batwowowowoman'
+# match_object1 = batRegex.search('The Adventures of Batwowowowoman')
+# print(match_object1.group()) # 'Batwowowowoman'
 
 match_object2 = batRegex.search('The Adventures of Batman')
 print(match_object2 is None) # True
@@ -113,7 +113,7 @@ print(findall_mo) # ['415-555-9999', '212-555-0000']
 
 phoneNumRegex = re.compile(r'(\d\d\d)-(\d\d\d)-(\d\d\d\d)') # has groups
 findall_mo1 = phoneNumRegex.findall('Cell: 415-555-9999 Work: 212-555-0000')
-print(findall_mo) # [('415', '555', '9999'), ('212', '555', '0000')]
+print(findall_mo1) # [('415', '555', '9999'), ('212', '555', '0000')]
 
 # character classes
 xmasRegex = re.compile(r'\d+\s\w+')
@@ -142,10 +142,10 @@ print(mo.group(2)) # 'Sweigart'
 
 # Matching Newlines with the Dot Character
 noNewlineRegex = re.compile('.*')
-print(noNewlineRegex.search('Serve the public trust.\nProtect the innocent.\nUphold the law.').group())
+print("---------", noNewlineRegex.search('Serve the public trust.\nProtect the innocent.\nUphold the law.').group())
 
 # match everything including newline
 newlineRegex = re.compile('.*', re.DOTALL)
-print(newlineRegex.search('Serve the public trust.\nProtect the innocent.\nUphold the law.').group())
+print("=====================", newlineRegex.search('Serve the public trust.\nProtect the innocent.\nUphold the law.').group())
 
 'Serve the public trust.\nProtect the innocent.\nUphold the law.'

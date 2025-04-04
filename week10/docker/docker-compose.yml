@@ -1,0 +1,31 @@
+services:
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    container_name: quiz-app-container
+    ports:
+      - "9000:9000"
+    command: uvicorn main:app --reload --host=0.0.0.0 --port 9000
+
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=gai3905
+      - POSTGRES_DB=quiz_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+      timeout: 3s
+
+volumes:
+  postgres_data:

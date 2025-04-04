@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>complete Test</title>
-    <link rel="stylesheet" href="\static\questions.css">
+    <title>Complete Test</title>
+    <link rel="stylesheet" href="/static/questions.css">
 </head>
 <body>
     <h2>Test Your Knowledge in {{ quiz.category }}: "{{ quiz.name }}"</h2>
-<!--    <h2>Time Left: <span id="timer">05:00</span></h2>-->
-    <form action="/submit_quiz" method="POST">
-    <input type="hidden" name="quiz_id" value="{{ quiz.id}}">
+
+    <form id="quiz-form" action="/submit_quiz" method="POST">
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+
         {% set total_questions = questions | length %}
         {% set per_page = 5 %}
         {% set total_pages = (total_questions // per_page) + (1 if total_questions % per_page > 0 else 0) %}
@@ -20,11 +21,11 @@
         {% for question in questions[start_index:end_index] %}
             <div class="question">
                 <h3>{{ loop.index0 + start_index + 1 }}. {{ question.question | safe }}</h3>
-                <input type="hidden" name="question_id_{{ loop.index0 + start_index + 1 }}" value="{{ question.id }}">
+                <input type="hidden" name="question_id_{{ question.id }}" value="{{ question.id }}">
 
                 {% for option in question.options %}
                     <label>
-                        <input type="checkbox" name="selected_options_{{ question.id }}[]" value="{{ option }}" class="question-option">
+                        <input type="checkbox" name="selected_options_{{ question.id }}[]" value="{{ option }}">
                         {{ option | safe }}
                     </label>
                 {% endfor %}
@@ -34,11 +35,11 @@
         <!-- Pagination -->
         <div class="pagination">
             {% if current_page > 1 %}
-                <a href="?page={{ current_page - 1 }}">Previous</a>
+                <button type="button" onclick="changePage({{ current_page - 1 }})">Previous</button>
             {% endif %}
             Page {{ current_page }} of {{ total_pages }}
             {% if current_page < total_pages %}
-                <a href="?page={{ current_page + 1 }}">Next</a>
+                <button type="button" onclick="changePage({{ current_page + 1 }})">Next</button>
             {% endif %}
         </div>
 
@@ -46,5 +47,70 @@
             <button type="submit">Submit</button>
         {% endif %}
     </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            loadStoredAnswers();
+        });
+
+        function saveAnswers() {
+            let storedAnswers = JSON.parse(localStorage.getItem("quiz_answers")) || {};
+
+            document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+                let questionId = checkbox.name; // e.g., selected_options_3[]
+                let optionValue = checkbox.value;
+
+                if (!storedAnswers[questionId]) {
+                    storedAnswers[questionId] = [];
+                }
+
+                if (checkbox.checked && !storedAnswers[questionId].includes(optionValue)) {
+                    storedAnswers[questionId].push(optionValue);
+                } else if (!checkbox.checked) {
+                    storedAnswers[questionId] = storedAnswers[questionId].filter(val => val !== optionValue);
+                }
+            });
+
+            localStorage.setItem("quiz_answers", JSON.stringify(storedAnswers));
+        }
+
+        function loadStoredAnswers() {
+            let storedAnswers = JSON.parse(localStorage.getItem("quiz_answers")) || {};
+
+            document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+                let questionId = checkbox.name;
+                let optionValue = checkbox.value;
+
+                if (storedAnswers[questionId] && storedAnswers[questionId].includes(optionValue)) {
+                    checkbox.checked = true;
+                }
+            });
+        }
+
+        function changePage(pageNumber) {
+            saveAnswers();
+            window.location.href = `?page=${pageNumber}`;
+        }
+
+        document.querySelector("#quiz-form").addEventListener("submit", function (event) {
+            saveAnswers();
+
+            let storedAnswers = JSON.parse(localStorage.getItem("quiz_answers")) || {};
+
+            // Remove any existing hidden inputs to prevent duplicates
+            document.querySelectorAll("input[type='hidden'].added-dynamically").forEach(input => input.remove());
+
+            for (let [questionId, options] of Object.entries(storedAnswers)) {
+                options.forEach(option => {
+                    let input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = questionId;
+                    input.value = option;
+                    input.classList.add("added-dynamically"); // Mark to remove before re-adding
+                    document.querySelector("#quiz-form").appendChild(input);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -17,7 +17,7 @@ response_blank_true = pyip.inputNum(blank=True)
 
 # The limit, timeout, and default Keyword Arguments
 response_limit = pyip.inputNum(limit=2)
-  # raise limitOrTimeoutException
+# raise limitOrTimeoutException
 # pyinputplus.RetryLimitException
 
 response_timeout = pyip.inputNum(timeout=10)
@@ -36,15 +36,15 @@ response_block_regex = pyip.inputNum(blockRegexes=[r'[02468]$'])
 response_allow_block_regex = pyip.inputStr(allowRegexes=[r'caterpillar', 'category'], blockRegexes=[r'cat'])
 
 # Passing a Custom Validation Function to inputCustom()
-def adds_up_to_ten(numbers):
-    numbers_list = list(numbers)
-    for i, digit in enumerate(numbers_list):
-        numbers_list[i] = int(digit)
-    if sum(numbers_list) != 10:
-        raise Exception('The digits must add up to 10, not %s.' %(sum(numbers_list)))
-    return int(numbers) # Return an int form of numbers.
-
-response = pyip.inputCustom(adds_up_to_ten)
+# def adds_up_to_ten(numbers):
+#     numbers_list = list(numbers)
+#     for i, digit in enumerate(numbers_list):
+#         numbers_list[i] = int(digit)
+#     if sum(numbers_list) != 10:
+#         raise Exception('The digits must add up to 10, not %s.' %(sum(numbers_list)))
+#     return int(numbers) # Return an int form of numbers.
+#
+# response = pyip.inputCustom(adds_up_to_ten)
 
 # # inputYesNo
 while True:

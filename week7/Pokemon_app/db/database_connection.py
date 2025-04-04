@@ -19,8 +19,8 @@ Base = declarative_base()
 
 
 async def get_db():
-    async with engine.begin() as con:
-        await con.run_sync(Base.metadata.create_all)
+    # async with engine.begin() as con:
+    #     await con.run_sync(Base.metadata.create_all)
     db = SessionLocal()
     try:
         yield db

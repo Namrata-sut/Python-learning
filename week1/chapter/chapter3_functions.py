@@ -3,10 +3,12 @@
 def add_numbers(a, b, c):
     return a + b + c
 
+
 a = int(input())
 b = int(input())
 c = int(input())
 print(add_numbers(a, b, c))
+
 
 # check number is even or odd
 def is_even_or_odd(number):
@@ -15,8 +17,10 @@ def is_even_or_odd(number):
     else:
         print("Odd")
 
+
 _number = int(input())
 is_even_or_odd(number=_number)
+
 
 # factorial of number
 def factorial(n):
@@ -25,6 +29,7 @@ def factorial(n):
     else:
         factorial_result = n * factorial(n - 1)
         return factorial_result
+
 
 print(factorial(3))
 
@@ -41,6 +46,8 @@ def calculator(operation, num1, num2):
         return num1 / num2
     else:
         return "Please provide proper operation to perform on numbers."
+
+
 #
 operation = input()
 num1 = int(input())
@@ -53,6 +60,7 @@ print(calculator(operation, num1, num2))
  the function returns the value 1. (Amazingly enough, this sequence actually works for any integer—sooner or later,
  using this sequence, you’ll arrive at 1! """
 import sys
+
 
 def collatz(number):
     if number % 2 == 0:
@@ -70,4 +78,3 @@ while True:
             sys.exit()
     except ValueError:
         print("Input number must be integer.")
-
